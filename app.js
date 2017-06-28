@@ -15,6 +15,8 @@
 
 	router.get('/getData', function(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Content-Type", "text/html; charset=UTF-8");
+
 		var obj = JSON.parse(fs.readFileSync('download.json', 'utf8'));
 		var k=0;
 		var result={};
@@ -30,6 +32,7 @@
 
 	router.get('/getDataGB', function(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Content-Type", "text/html; charset=UTF-8");
 		var obj = JSON.parse(fs.readFileSync('download.json', 'utf8'));
 		var k=0;
 		var result={};
