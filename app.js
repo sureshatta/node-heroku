@@ -17,7 +17,7 @@
 		var obj = JSON.parse(fs.readFileSync('download.json', 'utf8'));
 		var k=0;
 		var result={};
-		for(var i=0; i<100; i++){
+		for(var i=0; i<6800; i++){
            result[""+i+""] = obj;
            console.log(i);
 		}
