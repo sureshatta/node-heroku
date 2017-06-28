@@ -15,7 +15,13 @@
 	router.get('/getData', function(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
 		var obj = JSON.parse(fs.readFileSync('download.json', 'utf8'));
-		res.json(obj);
+		var k=0;
+		var result={};
+		for(var i=0; i<10000; i++){
+           result[""+i+""] = obj;
+           console.log(i);
+		}
+		res.json(result);
 
 	});
 
