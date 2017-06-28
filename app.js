@@ -12,12 +12,53 @@
 
 	app.use('/v1', router);
 
-	router.get('/getData', function(req, res) {
+	router.get('/getDataGB', function(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
 		var obj = JSON.parse(fs.readFileSync('download.json', 'utf8'));
 		var k=0;
 		var result={};
 		for(var i=0; i<6800; i++){
+           result[""+i+""] = obj;
+           console.log(i);
+		}
+		res.json(result);
+
+	});
+
+	router.get('/getDataHGB', function(req, res) {
+		res.header("Access-Control-Allow-Origin", "*");
+		var obj = JSON.parse(fs.readFileSync('download.json', 'utf8'));
+		var k=0;
+		var result={};
+		for(var i=0; i<3400; i++){
+           result[""+i+""] = obj;
+           console.log(i);
+		}
+		res.json(result);
+
+	});
+
+
+	router.get('/getDataQGB', function(req, res) {
+		res.header("Access-Control-Allow-Origin", "*");
+		var obj = JSON.parse(fs.readFileSync('download.json', 'utf8'));
+		var k=0;
+		var result={};
+		for(var i=0; i<1700; i++){
+           result[""+i+""] = obj;
+           console.log(i);
+		}
+		res.json(result);
+
+	});
+
+
+	router.get('/getDataHGB', function(req, res) {
+		res.header("Access-Control-Allow-Origin", "*");
+		var obj = JSON.parse(fs.readFileSync('download.json', 'utf8'));
+		var k=0;
+		var result={};
+		for(var i=0; i<850; i++){
            result[""+i+""] = obj;
            console.log(i);
 		}
