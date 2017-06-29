@@ -38,6 +38,29 @@
 		res.end();
 	});
 
+	router.get('/getLargeText', function(req, res) {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Content-Type", "text/html; charset=UTF-8");
+		fs.createReadStream("large.txt").pipe(res);
+	});
+
+	router.get('/generateFile', function(req, res) {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Content-Type", "text/html; charset=UTF-8");
+
+		var wstream = fs.createWriteStream('large.txt');
+
+		for(var i=0; i < 80; i++){
+		var rstream = fs.createReadStream('download.txt');
+		rstream.pipe(wstream);
+		}
+        res.write("success");
+		res.end();
+	});
+
+
+
+
 	
 
 
