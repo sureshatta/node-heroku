@@ -42,6 +42,7 @@
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Content-Type", "text/html; charset=UTF-8");
 		fs.createReadStream("large.txt").pipe(res);
+		// 
 	});
 
 	router.get('/generateFile', function(req, res) {
