@@ -41,8 +41,12 @@
 	router.get('/getLargeText', function(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Content-Type", "text/html; charset=UTF-8");
-		fs.createReadStream("large.txt").pipe(res);
-		// 
+		var stream = fs.createReadStream("large.txt");
+		stream.on("error", function (err) {
+			res.end("There was an error.");
+		})
+		stream.pipe(res);
+		//test 
 	});
 
 	router.get('/generateFile', function(req, res) {
@@ -51,7 +55,7 @@
 
 		var wstream = fs.createWriteStream('large.txt');
 
-		for(var i=0; i < 80; i++){
+		for(var i=0; i < 50; i++){
 		var rstream = fs.createReadStream('download.txt');
 		rstream.pipe(wstream);
 		}
