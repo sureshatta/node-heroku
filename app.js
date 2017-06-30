@@ -13,57 +13,63 @@
 	app.use('/v1', router);
 
 
-	router.get('/getData', function(req, res) {
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header("Content-Type", "text/html; charset=UTF-8");
+	
 
-		var obj = JSON.parse(fs.readFileSync('download.json', 'utf8'));
-		var k=0;
-		var result={};
-		for(var i=0; i<10; i++){
-           result[""+i+""] = obj;
-           console.log(i);
-           res.write(JSON.stringify(obj));
-		}
-		res.end();
-		
-
-	});
-
-	router.get('/getText', function(req, res) {
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header("Content-Type", "text/html; charset=UTF-8");
-		var obj = fs.readFileSync('download.txt', 'utf8');
-        res.write(obj);
-		res.end();
-	});
+	
 
 	router.get('/getLargeText', function(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Content-Type", "text/html; charset=UTF-8");
-		var stream = fs.createReadStream("large.txt");
-		stream.on("error", function (err) {
-			res.end("There was an error.");
-		})
-		stream.pipe(res);
-		//test 
+		if(!fileExists("large.txt")){
+			var wstream = fs.createWriteStream('large.txt');
+			for(var i=0; i < 50; i++){
+				var rstream = fs.createReadStream('download.txt');
+				rstream.pipe(wstream);
+			}
+		}else {
+			console.log("large text available. Cool.");
+		}
+		if(wstream){
+			wstream.on('finish', function() {
+				console.log("stream completed.. doing stuff now. Get ready.");
+				var stream = fs.createReadStream("large.txt");
+				stream.on("error", function (err) {
+					res.end("There was an error.");
+				})
+				stream.pipe(res);
+			});
+		}else {
+			var stream = fs.createReadStream("large.txt");
+			stream.on("error", function (err) {
+				res.end("There was an error.");
+			})
+			stream.pipe(res);
+		}
 	});
 
 	router.get('/generateFile', function(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Content-Type", "text/html; charset=UTF-8");
-
 		var wstream = fs.createWriteStream('large.txt');
-
 		for(var i=0; i < 50; i++){
-		var rstream = fs.createReadStream('download.txt');
-		rstream.pipe(wstream);
+			var rstream = fs.createReadStream('download.txt');
+			rstream.pipe(wstream);
 		}
-        res.write("success");
+		res.write("success");
 		res.end();
 	});
 
-
+	function fileExists(filePath)
+	{
+		try
+		{
+			return fs.statSync(filePath).isFile();
+		}
+		catch (err)
+		{
+			return false;
+		}
+	}
 
 
 	
