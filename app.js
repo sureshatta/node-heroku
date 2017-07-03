@@ -47,6 +47,66 @@
 		}
 	});
 
+	router.get('/getOneGBLargeText', function(req, res) {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Content-Type", "text/html; charset=UTF-8");
+		if(!fileExists("verylarge.txt")){
+			var wstream = fs.createWriteStream('verylarge.txt');
+			for(var i=0; i < 85; i++){
+				var rstream = fs.createReadStream('download.txt');
+				rstream.pipe(wstream);
+			}
+		}else {
+			console.log("large text available. Cool.");
+		}
+		if(wstream){
+			wstream.on('finish', function() {
+				console.log("stream completed.. doing stuff now. Get ready.");
+				var stream = fs.createReadStream("verylarge.txt");
+				stream.on("error", function (err) {
+					res.end("There was an error.");
+				})
+				stream.pipe(res);
+			});
+		}else {
+			var stream = fs.createReadStream("verylarge.txt");
+			stream.on("error", function (err) {
+				res.end("There was an error.");
+			})
+			stream.pipe(res);
+		}
+	});
+
+	router.get('/getTwoGBLargeText', function(req, res) {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Content-Type", "text/html; charset=UTF-8");
+		if(!fileExists("toolarge.txt")){
+			var wstream = fs.createWriteStream('toolarge.txt');
+			for(var i=0; i < 160; i++){
+				var rstream = fs.createReadStream('download.txt');
+				rstream.pipe(wstream);
+			}
+		}else {
+			console.log("large text available. Cool.");
+		}
+		if(wstream){
+			wstream.on('finish', function() {
+				console.log("stream completed.. doing stuff now. Get ready.");
+				var stream = fs.createReadStream("toolarge.txt");
+				stream.on("error", function (err) {
+					res.end("There was an error.");
+				})
+				stream.pipe(res);
+			});
+		}else {
+			var stream = fs.createReadStream("toolarge.txt");
+			stream.on("error", function (err) {
+				res.end("There was an error.");
+			})
+			stream.pipe(res);
+		}
+	});
+
 	router.get('/generateFile', function(req, res) {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Content-Type", "text/html; charset=UTF-8");
